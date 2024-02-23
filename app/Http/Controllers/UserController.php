@@ -8,6 +8,21 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+
+    public function login(Request $request)
+    {
+        $info = $request->validate([
+            'loginname' => 'required',
+            'loginpassword' => 'required'
+        ]);
+
+        if (auth()->attempt(['name' => $info['loginname'], 'password' => $info['loginpassword']])) {
+            $request->session()->regenerate();
+        }
+
+        return redirect('/');
+    }
+
     public function register(Request $request)
     {
         $incomingFields = $request->validate([
@@ -19,6 +34,14 @@ class UserController extends Controller
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         $user = User::create($incomingFields);
         auth()->login($user);
+        return redirect('/');
+    }
+
+
+
+    public function logout()
+    {
+        auth()->logout();
         return redirect('/');
     }
 }
