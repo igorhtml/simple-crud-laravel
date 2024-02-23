@@ -22,6 +22,17 @@
             </form>
         </div>
 
+        <div style="margin: 1rem 0; padding: 1rem; border: 3px solid black; border-radius: 5px;">
+            <h2>All Posts</h2>
+            @foreach ($posts as $post)
+                <div style="border: 1px solid red; padding: 1rem; margin: 1rem;">
+                    <h3>{{ $post['title'] }}</h3>
+                    <p>{{ $post['body'] }}</p>
+                </div>
+            @endforeach
+
+        </div>
+
         <form action="/logout" method="POST">
             @csrf
             <button>Logout</button>
